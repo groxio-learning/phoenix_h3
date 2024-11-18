@@ -2,3 +2,4 @@
 - Guilherme Bordallo
 - Shahryar Monavvari
 - Dalton McPhaden
+- Anthony Akpan

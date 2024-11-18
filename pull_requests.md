@@ -1,3 +1,4 @@
 - Bruce Tate
 - Guilherme Bordallo
 - Shahryar Monavvari
+- Dalton McPhaden

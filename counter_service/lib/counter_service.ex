@@ -15,6 +15,10 @@ defmodule CounterService do
     send(counter, :inc)
   end
 
+  def dec(counter) do
+    send(counter, :dec)
+  end
+
   def show(counter) do
     send(counter, {:show, self()})
 
@@ -33,6 +37,9 @@ defmodule CounterService do
     receive do
       :inc ->
         count + 1
+
+      :dec ->
+        count - 1
 
       {:show, from_pid} ->
         send(from_pid, count)

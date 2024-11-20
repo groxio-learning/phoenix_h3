@@ -20,34 +20,48 @@ defmodule Worbee.Core do
     game.guesses
   end
 
-  def show_results(%__MODULE__{guesses: []}) do
+  def compute_latest_guess(%__MODULE__{guesses: []}) do
     []
   end
 
-  # convert
-  def show_results(game) do
-    [latest_guess | _rest] = game.guesses
+  def compute_latest_guess(%{answer: answer, guesses: [latest_guess | _]} = _game) do
+    guess_graphemes = String.graphemes(latest_guess)
+    answer_graphemes = String.graphemes(answer)
 
-    latest_guess
-    |> String.split("", trim: true)
-    |> Enum.with_index()
-    |> Enum.map(fn {term, index} -> {term, char_comparison(term, index, game.answer)} end)
+    wrongs = guess_graphemes -- answer_graphemes
+
+    compute_greens(guess_graphemes, answer_graphemes)
+    |> compute_grays(wrongs)
+    |> compute_yellows()
+    |> convert_keys_to_atoms()
   end
 
-  # :correct, :wrong, :close
-  defp char_comparison(guess_char, index, answer) do
-    current_char = String.at(answer, index)
+  defp compute_greens(guess_graphemes, answer_graphemes) do
+    guess_graphemes
+      |> Enum.zip(answer_graphemes)
+      |> Enum.map(fn {g, a} -> if g == a do {g, :green} else {g, nil} end end)
+  end
 
-    cond do
-      guess_char == current_char ->
-        :correct
+  defp compute_grays(pre_result, wrongs) do
+    Enum.reduce(wrongs, Enum.reverse(pre_result), fn c, result ->
+      index = Enum.find_index(result, fn x -> x == {c, nil} end)
+      if is_nil(index) do
+        result
+      else
+        List.replace_at(result, index, {c, :gray})
+      end
+    end)
+    |> Enum.reverse()
+  end
 
-      # Bug here
-      String.contains?(answer, guess_char) ->
-        :close
+  defp compute_yellows(pre_result) do
+    Enum.map(pre_result, fn
+      {c, nil} -> {c, :yellow}
+      x -> x
+    end)
+  end
 
-      true ->
-        :wrong
-    end
+  defp convert_keys_to_atoms(pre_result) do
+    Enum.map(pre_result, fn {c, color} -> {String.to_atom(c), color} end)
   end
 end

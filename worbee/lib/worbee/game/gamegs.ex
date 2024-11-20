@@ -13,7 +13,7 @@ defmodule Worbee.Game.Gamegs do
   def match(%{answer: answer, guesses: [guess | _], results: results} = game) do
    result = String.split(guess, "", trim: true)
     |> Stream.with_index()
-    |> Enum.reduce([], fn ({letter, index},  acc) ->
+    |> Enum.reduce([], fn ({letter, _index},  acc) ->
       if String.contains?(answer, letter) do
         acc ++ [:green_or_yellow]
       else

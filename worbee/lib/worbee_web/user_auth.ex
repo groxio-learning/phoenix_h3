@@ -202,7 +202,6 @@ defmodule WorbeeWeb.UserAuth do
   they use the application at all, here would be a good place.
   """
   def require_authenticated_user(conn, _opts) do
-    dbg(conn.assigns)
     if conn.assigns[:current_user] do
       conn
     else

@@ -17,7 +17,7 @@ defmodule Worbee.Application do
       # Start a worker by calling: Worbee.Worker.start_link(arg)
       # {Worbee.Worker, arg},
       # Start to serve requests, typically the last entry
-      {Worbee, "robin"},
+      {Worbee.Game, "robin"},
       WorbeeWeb.Endpoint
     ]
 

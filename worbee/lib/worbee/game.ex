@@ -9,7 +9,7 @@ defmodule Worbee.Game do
 
   use GenServer
 
-  alias Worbee.Game.{Core, Library}
+  alias Worbee.Game.{Core, Words}
 
   def start_link({default, name}) when is_binary(default) do
     GenServer.start_link(__MODULE__, default, name: name)
@@ -33,7 +33,7 @@ defmodule Worbee.Game do
   end
 
   def random_answer() do
-    Library.random_answer()
+    Words.random_answer()
   end
 
   def child_spec({word, name}) do

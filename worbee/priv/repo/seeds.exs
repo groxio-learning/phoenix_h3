@@ -12,6 +12,7 @@
 
 alias Worbee.Game.Words
 alias Worbee.Library
+alias Worbee.Accounts
 
 Words.read_file("wordle-La.txt")
 |> Enum.shuffle()
@@ -22,3 +23,8 @@ Words.read_file("wordle-La.txt")
       word: word
     })
 end)
+
+{:ok, _user} = Accounts.register_user(%{
+  email: "admin@admin.com",
+  password: "password1234",
+})

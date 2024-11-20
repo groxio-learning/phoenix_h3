@@ -1,4 +1,4 @@
-defmodule Worbee.Core do
+defmodule Worbee.Game.Core do
   defstruct guesses: [], answer: nil
 
   # construct
@@ -38,13 +38,20 @@ defmodule Worbee.Core do
 
   defp compute_greens(guess_graphemes, answer_graphemes) do
     guess_graphemes
-      |> Enum.zip(answer_graphemes)
-      |> Enum.map(fn {g, a} -> if g == a do {g, :green} else {g, :unknown} end end)
+    |> Enum.zip(answer_graphemes)
+    |> Enum.map(fn {g, a} ->
+      if g == a do
+        {g, :green}
+      else
+        {g, :unknown}
+      end
+    end)
   end
 
   defp compute_grays(pre_result, wrongs) do
     Enum.reduce(wrongs, Enum.reverse(pre_result), fn c, result ->
       index = Enum.find_index(result, fn x -> x == {c, :unknown} end)
+
       if is_nil(index) do
         result
       else

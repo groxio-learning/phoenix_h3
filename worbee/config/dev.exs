@@ -2,8 +2,8 @@ import Config
 
 # Configure your database
 config :worbee, Worbee.Repo,
-  username: "postgres",
-  password: "postgres",
+  username: "anthony",
+  password: "anthony",
   hostname: "localhost",
   database: "worbee_dev",
   stacktrace: true,

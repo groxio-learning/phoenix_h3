@@ -1,4 +1,4 @@
-defmodule Worbee.Game.Library do
+defmodule Worbee.Game.Words do
   def valid?(guess) do
     read_file("wordle-Ta.txt")
     |> MapSet.new()
@@ -11,7 +11,7 @@ defmodule Worbee.Game.Library do
     |> Enum.random()
   end
 
-  defp read_file(filename) do
+  def read_file(filename) do
     [File.cwd!(), "assets", filename]
     |> Path.join()
     |> File.read!()

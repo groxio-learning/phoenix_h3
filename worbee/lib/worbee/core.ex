@@ -30,13 +30,20 @@ defmodule Worbee.Core do
 
     wrongs = guess_graphemes -- answer_graphemes
 
-    result =
-      guess_graphemes
+    compute_greens(guess_graphemes, answer_graphemes)
+    |> compute_grays(wrongs)
+    |> compute_yellows()
+    |> convert_keys_to_atoms()
+  end
+
+  defp compute_greens(guess_graphemes, answer_graphemes) do
+    guess_graphemes
       |> Enum.zip(answer_graphemes)
       |> Enum.map(fn {g, a} -> if g == a do {g, :green} else {g, nil} end end)
-      |> Enum.reverse()
+  end
 
-    Enum.reduce(wrongs, result, fn c, result ->
+  defp compute_grays(pre_result, wrongs) do
+    Enum.reduce(wrongs, Enum.reverse(pre_result), fn c, result ->
       index = Enum.find_index(result, fn x -> x == {c, nil} end)
       if is_nil(index) do
         result
@@ -45,10 +52,16 @@ defmodule Worbee.Core do
       end
     end)
     |> Enum.reverse()
-    |> Enum.map(fn
+  end
+
+  defp compute_yellows(pre_result) do
+    Enum.map(pre_result, fn
       {c, nil} -> {c, :yellow}
       x -> x
     end)
-    |> Enum.map(fn {c, color} -> {String.to_atom(c), color} end)
+  end
+
+  defp convert_keys_to_atoms(pre_result) do
+    Enum.map(pre_result, fn {c, color} -> {String.to_atom(c), color} end)
   end
 end

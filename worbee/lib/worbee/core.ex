@@ -20,34 +20,29 @@ defmodule Worbee.Core do
     game.guesses
   end
 
-  def show_results(%__MODULE__{guesses: []}) do
+  def compute_latest_guess(%__MODULE__{guesses: []}) do
     []
   end
 
-  # convert
-  def show_results(game) do
-    [latest_guess | _rest] = game.guesses
+  def compute_latest_guess(%{answer: answer, guesses: [latest_guess | _]} = _game) do
+    guess_graphemes = String.graphemes(latest_guess)
+    answer_graphemes = String.graphemes(answer)
 
-    latest_guess
-    |> String.split("", trim: true)
-    |> Enum.with_index()
-    |> Enum.map(fn {term, index} -> {term, char_comparison(term, index, game.answer)} end)
-  end
+    wrongs = guess_graphemes -- answer_graphemes
 
-  # :correct, :wrong, :close
-  defp char_comparison(guess_char, index, answer) do
-    current_char = String.at(answer, index)
+    guess_graphemes
+    |> Enum.zip(answer_graphemes)
+    |> Enum.map(fn
+      {g, a} when g == a ->
+        {String.to_atom(g), :green}
 
-    cond do
-      guess_char == current_char ->
-        :correct
-
-      # Bug here
-      String.contains?(answer, guess_char) ->
-        :close
-
-      true ->
-        :wrong
-    end
+      {g, _a} ->
+        {String.to_atom(g),
+         if g in wrongs do
+           :gray
+         else
+           :yellow
+         end}
+    end)
   end
 end

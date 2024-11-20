@@ -41,7 +41,7 @@ defmodule Worbee do
 
   @impl true
   def handle_call(:show, _from, state) do
-    result = Worbee.Core.show_results(state)
+    result = Worbee.Core.compute_latest_guess(state)
     {:reply, result, state}
   end
 

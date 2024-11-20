@@ -9,3 +9,16 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+
+alias Worbee.Game.Words
+alias Worbee.Library
+
+Words.read_file("wordle-La.txt")
+|> Enum.shuffle()
+|> Enum.with_index(fn word, index ->
+  {:ok, _daily_answer} =
+    Library.create_daily_answer(%{
+      date: Date.utc_today() |> Date.add(index),
+      word: word
+    })
+end)

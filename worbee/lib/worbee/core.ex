@@ -30,19 +30,25 @@ defmodule Worbee.Core do
 
     wrongs = guess_graphemes -- answer_graphemes
 
-    guess_graphemes
-    |> Enum.zip(answer_graphemes)
-    |> Enum.map(fn
-      {g, a} when g == a ->
-        {String.to_atom(g), :green}
+    result =
+      guess_graphemes
+      |> Enum.zip(answer_graphemes)
+      |> Enum.map(fn {g, a} -> if g == a do {g, :green} else {g, nil} end end)
+      |> Enum.reverse()
 
-      {g, _a} ->
-        {String.to_atom(g),
-         if g in wrongs do
-           :gray
-         else
-           :yellow
-         end}
+    Enum.reduce(wrongs, result, fn c, result ->
+      index = Enum.find_index(result, fn x -> x == {c, nil} end)
+      if is_nil(index) do
+        result
+      else
+        List.replace_at(result, index, {c, :gray})
+      end
     end)
+    |> Enum.reverse()
+    |> Enum.map(fn
+      {c, nil} -> {c, :yellow}
+      x -> x
+    end)
+    |> Enum.map(fn {c, color} -> {String.to_atom(c), color} end)
   end
 end

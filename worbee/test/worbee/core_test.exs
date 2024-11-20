@@ -60,6 +60,11 @@ defmodule Worbee.CoreTest do
       |> Core.add_guess("ggggg")
       |> Core.compute_latest_guess()
       |> assert_equal([g: :green, g: :gray, g: :gray, g: :gray, g: :green])
+
+      game
+      |> Core.add_guess("iipgg")
+      |> Core.compute_latest_guess()
+      |> assert_equal([i: :yellow, i: :gray, p: :gray, g: :yellow, g: :green])
     end
 
     test "should return the correct keyword list when the guess does not have any character of the answer" do

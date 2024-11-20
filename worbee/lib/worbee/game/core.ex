@@ -20,12 +20,8 @@ defmodule Worbee.Game.Core do
     game.guesses
   end
 
-  def compute_latest_guess(%__MODULE__{guesses: []}) do
-    []
-  end
-
-  def compute_latest_guess(%{answer: answer, guesses: [latest_guess | _]} = _game) do
-    guess_graphemes = String.graphemes(latest_guess)
+  def compute_guess(%__MODULE__{answer: answer}, guess) do
+    guess_graphemes = String.graphemes(guess)
     answer_graphemes = String.graphemes(answer)
 
     wrongs = guess_graphemes -- answer_graphemes
@@ -34,6 +30,14 @@ defmodule Worbee.Game.Core do
     |> compute_grays(wrongs)
     |> compute_yellows()
     |> convert_keys_to_atoms()
+  end
+
+  def compute_latest_guess(%__MODULE__{guesses: []}) do
+    []
+  end
+
+  def compute_latest_guess(%{answer: answer, guesses: [latest_guess | _]} = game) do
+    compute_guess(game, latest_guess)
   end
 
   defp compute_greens(guess_graphemes, answer_graphemes) do

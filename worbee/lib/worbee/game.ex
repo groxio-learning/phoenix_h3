@@ -9,22 +9,35 @@ defmodule Worbee.Game do
 
   use GenServer
 
-  alias Worbee.Game.Core
+  alias Worbee.Game.{Core, Library}
 
-  def start_link(default) when is_binary(default) do
-    GenServer.start_link(__MODULE__, default, name: :worbee)
+  def start_link({default, name}) when is_binary(default) do
+    GenServer.start_link(__MODULE__, default, name: name)
   end
 
-  def add_guess(pid, guess) do
+  def start_link({default, name}) when is_atom(default) do
+    GenServer.start_link(__MODULE__, random_answer(), name: name)
+  end
+
+  def add_guess(pid \\ :worbee, guess) do
     GenServer.cast(pid, {:add_guess, guess})
-  end
-
-  def show(pid) do
     GenServer.call(pid, :show)
   end
 
-  def show_guesses(pid) do
+  def show(pid \\ :worbee) do
+    GenServer.call(pid, :show)
+  end
+
+  def show_guesses(pid \\ :worbee) do
     GenServer.call(pid, :show_guesses)
+  end
+
+  def random_answer() do
+    Library.random_answer()
+  end
+
+  def child_spec({word, name}) do
+    %{id: name, start: {Worbee.Game, :start_link, [{word, name}]}}
   end
 
   # Server (callbacks)

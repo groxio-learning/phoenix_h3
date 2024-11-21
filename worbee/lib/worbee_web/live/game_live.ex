@@ -34,9 +34,7 @@ defmodule WorbeeWeb.GameLive do
     </.form>
     <ul>
       <li :for={guess <- Enum.reverse(Core.show_guesses(@game))} class="flex">
-        <span :for={{c, color} <- Core.compute_guess(@game, guess)} class="flex">
-          <.letter character={c} color={color} />
-        </span>
+        <.word letters={Core.compute_guess(@game, guess)} />
       </li>
     </ul>
     """

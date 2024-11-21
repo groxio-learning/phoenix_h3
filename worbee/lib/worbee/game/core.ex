@@ -36,7 +36,7 @@ defmodule Worbee.Game.Core do
     []
   end
 
-  def compute_latest_guess(%{answer: answer, guesses: [latest_guess | _]} = game) do
+  def compute_latest_guess(%{guesses: [latest_guess | _]} = game) do
     compute_guess(game, latest_guess)
   end
 

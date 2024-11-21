@@ -13,7 +13,7 @@ defmodule Worbee.Games.Guess do
   def changeset(guess, attrs) do
     guess
     |> cast(attrs, [:guess, :user_game_id])
-    |> validate_required([:guess])
+    |> validate_required([:guess], message: "The guess cannot be blank")
     |> validate_required([:user_game_id])
     |> validate_length(:guess, is: 5)
     |> validate_format(:guess, ~r/^[a-z]+$/)

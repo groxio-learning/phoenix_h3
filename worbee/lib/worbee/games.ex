@@ -7,6 +7,7 @@ defmodule Worbee.Games do
   alias Worbee.Repo
   alias Worbee.Library
   alias Worbee.Games.UserGame
+  alias Worbee.Games.Guess
 
   @doc """
   Returns the list of user_games.
@@ -126,5 +127,9 @@ defmodule Worbee.Games do
   """
   def change_user_game(%UserGame{} = user_game, attrs \\ %{}) do
     UserGame.changeset(user_game, attrs)
+  end
+
+  def create_guess(%Guess{} = guess, attrs) do
+    guess |> Guess.changeset(attrs) |> Repo.insert()
   end
 end

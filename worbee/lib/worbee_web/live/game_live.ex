@@ -30,7 +30,7 @@ defmodule WorbeeWeb.GameLive do
     <%!-- <%= inspect(@game) %> --%>
     <.guess_form form={@form} />
 
-    <.guesses game={@game} words={Enum.reverse(Core.show_guesses(@game))} } />
+    <.guesses game={@game} words={Enum.reverse(Core.show_guesses(@game))} />
     """
   end
 end

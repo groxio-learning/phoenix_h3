@@ -1,8 +1,6 @@
 defmodule WorbeeWeb.WorbeeComponents do
   use Phoenix.Component
 
-  alias ElixirLS.LanguageServer.Plugins.Phoenix
-  alias Phoenix.LiveView.JS
   alias Worbee.Game.Core
   import WorbeeWeb.CoreComponents
 

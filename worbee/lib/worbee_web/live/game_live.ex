@@ -2,6 +2,7 @@ defmodule WorbeeWeb.GameLive do
   use WorbeeWeb, :live_view
 
   alias Worbee.Game.{Words, Core}
+  import WorbeeWeb.WorbeeComponents
 
   @impl true
   def mount(_params, _session, socket) do
@@ -34,14 +35,10 @@ defmodule WorbeeWeb.GameLive do
     <ul>
       <li :for={guess <- Enum.reverse(Core.show_guesses(@game))} class="flex">
         <span :for={{c, color} <- Core.compute_guess(@game, guess)} class="flex">
-          <p class={"p-4 font-mono flex #{color(color)} uppercase"}><%= c %></p>
+          <.letter character={c} color={color} />
         </span>
       </li>
     </ul>
     """
-  end
-
-  defp color(game_color) do
-    "bg-#{to_string(game_color)}-100"
   end
 end

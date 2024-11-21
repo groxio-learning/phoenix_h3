@@ -34,10 +34,14 @@ defmodule WorbeeWeb.GameLive do
     <ul>
       <li :for={guess <- Enum.reverse(Core.show_guesses(@game))} class="flex">
         <span :for={{c, color} <- Core.compute_guess(@game, guess)} class="flex">
-          <p class={"p-4 flex bg-#{color}-100 uppercase"}><%= c %></p>
+          <p class={"p-4 font-mono flex #{color(color)} uppercase"}><%= c %></p>
         </span>
       </li>
     </ul>
     """
+  end
+
+  defp color(game_color) do
+    "bg-#{to_string(game_color)}-100"
   end
 end

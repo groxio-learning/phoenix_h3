@@ -1,8 +1,10 @@
 defmodule WorbeeWeb.WorbeeComponents do
   use Phoenix.Component
 
+  alias ElixirLS.LanguageServer.Plugins.Phoenix
   alias Phoenix.LiveView.JS
   alias Worbee.Game.Core
+  import WorbeeWeb.CoreComponents
 
   attr(:character, :atom, required: true)
   attr(:color, :atom, required: true)
@@ -33,6 +35,17 @@ defmodule WorbeeWeb.WorbeeComponents do
         <.word letters={Core.compute_guess(@game, guess)} />
       </li>
     </ul>
+    """
+  end
+
+  attr(:form, :any, required: true)
+
+  def guess_form(assigns) do
+    ~H"""
+    <.simple_form for={@form} phx-submit="make-guess">
+      <.input field={@form["guess"]} />
+      <.button>submit</.button>
+    </.simple_form>
     """
   end
 

@@ -28,10 +28,7 @@ defmodule WorbeeWeb.GameLive do
     ~H"""
     <div class="bg-green-100 bg-gray-100 bg-yellow-100"></div>
     <%!-- <%= inspect(@game) %> --%>
-    <.form for={@form} phx-submit="make-guess">
-      <.input field={@form["guess"]} />
-      <.button>submit</.button>
-    </.form>
+    <.guess_form form={@form} />
 
     <.guesses game={@game} words={Enum.reverse(Core.show_guesses(@game))} } />
     """

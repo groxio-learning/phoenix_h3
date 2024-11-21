@@ -2,6 +2,7 @@ defmodule WorbeeWeb.WorbeeComponents do
   use Phoenix.Component
 
   alias Phoenix.LiveView.JS
+  alias Worbee.Game.Core
 
   attr(:character, :atom, required: true)
   attr(:color, :atom, required: true)
@@ -19,6 +20,19 @@ defmodule WorbeeWeb.WorbeeComponents do
     <span :for={{c, color} <- @letters} class="flex">
       <.letter character={c} color={color} />
     </span>
+    """
+  end
+
+  attr(:words, :list, required: true)
+  attr(:game, Core, required: true)
+
+  def guesses(assigns) do
+    ~H"""
+    <ul>
+      <li :for={guess <- @words} class="flex">
+        <.word letters={Core.compute_guess(@game, guess)} />
+      </li>
+    </ul>
     """
   end
 

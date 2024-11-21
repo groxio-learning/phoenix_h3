@@ -32,11 +32,8 @@ defmodule WorbeeWeb.GameLive do
       <.input field={@form["guess"]} />
       <.button>submit</.button>
     </.form>
-    <ul>
-      <li :for={guess <- Enum.reverse(Core.show_guesses(@game))} class="flex">
-        <.word letters={Core.compute_guess(@game, guess)} />
-      </li>
-    </ul>
+
+    <.guesses game={@game} words={Enum.reverse(Core.show_guesses(@game))} } />
     """
   end
 end

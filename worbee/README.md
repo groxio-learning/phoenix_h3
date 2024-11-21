@@ -16,3 +16,22 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   * Docs: https://hexdocs.pm/phoenix
   * Forum: https://elixirforum.com/c/phoenix-forum
   * Source: https://github.com/phoenixframework/phoenix
+
+
+## Todo:
+### 1 - Componentes in the UI
+
+### 2 - Guesses and User Game Models
+
+### 3 - Validation (depens on 2)
+- 5 letters
+- only letters
+- valid word
+
+### 4 - Admin status 
+
+### 5 - PubSub dashboard (depends on 4)
+
+### 6 - Start Today`s Game or Random practice Game
+
+### 7 - Game history (depends on 2)

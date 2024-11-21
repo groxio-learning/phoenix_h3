@@ -36,14 +36,19 @@ defmodule Worbee.LibraryTest do
       daily_answer = daily_answer_fixture()
       update_attrs = %{date: ~D[2024-11-20], word: "some updated word"}
 
-      assert {:ok, %DailyAnswer{} = daily_answer} = Library.update_daily_answer(daily_answer, update_attrs)
+      assert {:ok, %DailyAnswer{} = daily_answer} =
+               Library.update_daily_answer(daily_answer, update_attrs)
+
       assert daily_answer.date == ~D[2024-11-20]
       assert daily_answer.word == "some updated word"
     end
 
     test "update_daily_answer/2 with invalid data returns error changeset" do
       daily_answer = daily_answer_fixture()
-      assert {:error, %Ecto.Changeset{}} = Library.update_daily_answer(daily_answer, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Library.update_daily_answer(daily_answer, @invalid_attrs)
+
       assert daily_answer == Library.get_daily_answer!(daily_answer.id)
     end
 

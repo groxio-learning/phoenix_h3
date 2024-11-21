@@ -9,15 +9,21 @@ defmodule WorbeeWeb.CounterLive do
       <pre>
         <%= inspect(@counter, pretty: true) %>
       </pre>
-      <hr>
+      <hr />
       <pre>
         <%= inspect(assigns, pretty: true) %>
       </pre>
       <p><%= Counter.show(@counter) %></p>
-      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" phx-click="increment">
+      <button
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        phx-click="increment"
+      >
         Increment
       </button>
-      <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" phx-click="decrement">
+      <button
+        class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+        phx-click="decrement"
+      >
         Decrement
       </button>
     </div>
@@ -25,13 +31,13 @@ defmodule WorbeeWeb.CounterLive do
   end
 
   def handle_event("increment", _value, socket) do
-    counter = socket.assigns.counter |> Counter.inc
+    counter = socket.assigns.counter |> Counter.inc()
 
     {:noreply, assign(socket, :counter, counter)}
   end
 
   def handle_event("decrement", _value, socket) do
-    counter = socket.assigns.counter |> Counter.dec
+    counter = socket.assigns.counter |> Counter.dec()
 
     {:noreply, assign(socket, :counter, counter)}
   end

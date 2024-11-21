@@ -2,6 +2,7 @@ defmodule WorbeeWeb.GameLive do
   use WorbeeWeb, :live_view
 
   alias Worbee.Game.{Words, Core}
+  import WorbeeWeb.WorbeeComponents
 
   @impl true
   def mount(_params, _session, socket) do
@@ -27,21 +28,9 @@ defmodule WorbeeWeb.GameLive do
     ~H"""
     <div class="bg-green-100 bg-gray-100 bg-yellow-100"></div>
     <%!-- <%= inspect(@game) %> --%>
-    <.form for={@form} phx-submit="make-guess">
-      <.input field={@form["guess"]} />
-      <.button>submit</.button>
-    </.form>
-    <ul>
-      <li :for={guess <- Enum.reverse(Core.show_guesses(@game))} class="flex">
-        <span :for={{c, color} <- Core.compute_guess(@game, guess)} class="flex">
-          <p class={"p-4 font-mono flex #{color(color)} uppercase"}><%= c %></p>
-        </span>
-      </li>
-    </ul>
-    """
-  end
+    <.guess_form form={@form} />
 
-  defp color(game_color) do
-    "bg-#{to_string(game_color)}-100"
+    <.guesses game={@game} words={Enum.reverse(Core.show_guesses(@game))} } />
+    """
   end
 end

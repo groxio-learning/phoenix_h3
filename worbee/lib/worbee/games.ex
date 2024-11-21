@@ -5,7 +5,7 @@ defmodule Worbee.Games do
 
   import Ecto.Query, warn: false
   alias Worbee.Repo
-
+  alias Worbee.Library
   alias Worbee.Games.UserGame
 
   @doc """
@@ -49,7 +49,33 @@ defmodule Worbee.Games do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_user_game(attrs \\ %{}) do
+  def create_or_get_user_game(%{mode: "random"} = attrs) do
+    %UserGame{}
+    |> UserGame.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def create_or_get_user_game(%{mode: "daily", user_id: user_id} = attrs) do
+    todays_answer = Library.get_daily_answer_by_date(Date.utc_today())
+
+    user_game =
+      from(g in UserGame,
+        where: g.user_id == ^user_id,
+        where: g.daily_answer_id == ^todays_answer.id
+      )
+      |> Repo.one()
+
+    user_game || create_daily_user_game(attrs)
+  end
+
+  def create_daily_user_game(attrs) do
+    todays_answer = Library.get_daily_answer_by_date(Date.utc_today())
+
+    attrs =
+      attrs
+      |> Map.put(:answer, todays_answer.word)
+      |> Map.put(:daily_answer_id, todays_answer.id)
+
     %UserGame{}
     |> UserGame.changeset(attrs)
     |> Repo.insert()

@@ -3,7 +3,7 @@
 
   <.guess_form form={@form} />
 
-  <.guesses game={@game} words={Enum.reverse(Core.show_guesses(@game))} />
+  <.guesses game={@game} words={Enum.reverse(Games.show_guesses(@game))} />
 </div>
 <div :if={@live_action == :new}>
   <.button phx-click="start" phx-value-mode="random">Random</.button>

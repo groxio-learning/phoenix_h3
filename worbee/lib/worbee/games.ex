@@ -148,4 +148,31 @@ defmodule Worbee.Games do
   def create_guess(%Guess{} = guess, attrs) do
     guess |> Guess.changeset(attrs) |> Repo.insert()
   end
+
+  def add_guess(user_game_id, game, guess) do
+    case create_guess(%Guess{}, %{
+           guess: guess,
+           user_game_id: user_game_id
+         }) do
+      {:ok, _guess} ->
+        game = Core.add_guess(game, guess)
+
+        broadcast_guess(game, user_game_id)
+
+        {:ok, game}
+
+      error ->
+        error
+    end
+  end
+
+  defdelegate show_guesses(game), to: Core
+
+  defp broadcast_guess(game, id) do
+    Phoenix.PubSub.broadcast(Worbee.PubSub, topic("all"), {game, id})
+  end
+
+  defp topic(token), do: "game/#{token}"
+  # subscribe to a topic
+  # broadcasts to a topic
 end

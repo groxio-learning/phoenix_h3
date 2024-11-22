@@ -15,7 +15,7 @@ defmodule Worbee.Games.UserGame do
   @doc false
   def changeset(user_game, attrs) do
     user_game
-    |> cast(attrs, [:mode, :answer, :user_id])
+    |> cast(attrs, [:mode, :answer, :user_id, :daily_answer_id])
     |> validate_required([:mode, :answer, :user_id])
   end
 end

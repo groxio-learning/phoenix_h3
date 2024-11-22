@@ -69,6 +69,7 @@ defmodule WorbeeWeb.Router do
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
       live "/counter", CounterLive, :count
+      live "/game-history", GameHistoryLive
       live "/game/new", GameLive, :new
       live "/game/:id", GameLive, :play
     end

@@ -37,7 +37,7 @@ defmodule Worbee.Games do
       ** (Ecto.NoResultsError)
 
   """
-  def get_user_game!(id), do: Repo.get!(UserGame, id) |> Repo.preload(:guesses) |> dbg
+  def get_user_game!(id), do: Repo.get!(UserGame, id) |> Repo.preload(:guesses)
 
   def core!(user_game) do
     answer = user_game.answer
@@ -78,7 +78,11 @@ defmodule Worbee.Games do
       )
       |> Repo.one()
 
-    user_game || create_daily_user_game(attrs)
+    if user_game do
+      {:ok, user_game}
+    else
+      create_daily_user_game(attrs)
+    end
   end
 
   def create_daily_user_game(attrs) do

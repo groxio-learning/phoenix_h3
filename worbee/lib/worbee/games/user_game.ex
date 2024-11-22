@@ -3,10 +3,11 @@ defmodule Worbee.Games.UserGame do
   import Ecto.Changeset
 
   schema "user_games" do
-    field :mode, Ecto.Enum, values: [:daily, :random]
-    field :answer, :string
-    field :user_id, :id
-    field :daily_answer_id, :id
+    field(:mode, Ecto.Enum, values: [:daily, :random])
+    field(:answer, :string)
+    belongs_to(:user, Worbee.Accounts.User)
+    has_many(:guesses, Worbee.Games.Guess)
+    field(:daily_answer_id, :id)
 
     timestamps(type: :utc_datetime)
   end

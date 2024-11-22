@@ -29,7 +29,7 @@ defmodule WorbeeWeb.GameLive do
   end
 
   def handle_event("validate", params, socket) do
-    {:noreply, validate(socket, params["guess"]) }
+    {:noreply, validate(socket, params["guess"])}
   end
 
   def handle_params(params, _uri, socket) do
@@ -44,8 +44,7 @@ defmodule WorbeeWeb.GameLive do
 
   defp apply_action(socket, %{"id" => user_game_id}, :play) do
     user_game = Games.get_user_game!(user_game_id)
-
-    game = Core.init(user_game.answer)
+    game = Games.core!(user_game)
 
     socket
     |> assign(:game, game)

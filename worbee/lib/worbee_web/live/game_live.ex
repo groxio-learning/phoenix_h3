@@ -3,6 +3,8 @@ defmodule WorbeeWeb.GameLive do
 
   alias Worbee.Game.{Words, Core}
   alias Worbee.Games
+  alias Worbee.Games.Guess
+
   import WorbeeWeb.WorbeeComponents
 
   @impl true
@@ -11,10 +13,35 @@ defmodule WorbeeWeb.GameLive do
   end
 
   @impl true
-  def handle_event("make-guess", %{"guess" => guess}, socket) do
-    game = Core.add_guess(socket.assigns.game, guess)
+  def handle_event(
+        "make-guess",
+        %{
+          "guess" => %{
+            "guess" => guess
+          }
+        } = params,
+        %{
+          assigns: %{
+            user_game: %{
+              id: user_game_id
+            }
+          }
+        } = socket
+      ) do
+    case Games.create_guess(%Guess{}, %{
+           guess: guess,
+           user_game_id: user_game_id
+         }) do
+      {:ok, _} ->
+        game = Core.add_guess(socket.assigns.game, guess)
 
-    {:noreply, assign(socket, :game, game)}
+        {:noreply, assign(socket, :game, game)}
+
+      {:error, changeset} ->
+        form = to_form(changeset)
+
+        {:noreply, assign(socket, form: form)}
+    end
   end
 
   @impl true
@@ -41,7 +68,7 @@ defmodule WorbeeWeb.GameLive do
 
     socket
     |> assign(:game, game)
-    |> assign(:form, to_form(%{"guess" => "Guess"}))
+    |> assign(:form, to_form(Guess.changeset(%Guess{}, %{})))
     |> assign(:user_game, user_game)
   end
 
@@ -64,5 +91,19 @@ defmodule WorbeeWeb.GameLive do
       <.button phx-click="start" phx-value-mode="daily">Daily</.button>
     </div>
     """
+  end
+
+  defp assign_form(socket, %Ecto.Changeset{} = changeset) do
+    form = to_form(changeset, as: "user")
+
+    if changeset.valid? do
+      game = Core.add_guess(socket.assigns.game, Ecto.Changeset.get_change(changeset, :guess))
+
+      socket
+      |> assign(:game, game)
+      |> assign(form: form, check_errors: false)
+    else
+      assign(socket, form: form)
+    end
   end
 end

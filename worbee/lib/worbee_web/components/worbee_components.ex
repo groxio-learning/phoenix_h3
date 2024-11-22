@@ -41,7 +41,7 @@ defmodule WorbeeWeb.WorbeeComponents do
   def guess_form(assigns) do
     ~H"""
     <.simple_form for={@form} phx-change="validate" phx-submit="make-guess">
-      <.input field={@form[:guess]} autocomplete="off"/>
+      <.input field={@form[:guess]} />
       <.button>submit</.button>
     </.simple_form>
     """

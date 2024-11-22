@@ -1,7 +1,7 @@
 defmodule WorbeeWeb.GameLive do
   use WorbeeWeb, :live_view
 
-  alias Worbee.Game.{Words, Core}
+  alias Worbee.Game.Words
   alias Worbee.Games
   alias Worbee.Games.Guess
 
@@ -14,7 +14,7 @@ defmodule WorbeeWeb.GameLive do
 
   @impl true
   def handle_event("make-guess", params, socket) do
-    {:noreply, make_guess(socket, params)}
+    {:noreply, make_guess(socket, params["guess"])}
   end
 
   def handle_event("start", %{"mode" => mode}, socket) do
@@ -60,13 +60,14 @@ defmodule WorbeeWeb.GameLive do
   defp clear_form(socket), do: assign(socket, :form, to_form(Guess.changeset(%Guess{}, %{})))
 
   defp make_guess(socket, params) do
-    case Games.create_guess(%Guess{}, %{
-           guess: params["guess"]["guess"],
-           user_game_id: socket.assigns.user_game.id
-         }) do
-      {:ok, _} ->
+    case Games.add_guess(
+           socket.assigns.user_game.id,
+           socket.assigns.game,
+           params["guess"]
+         ) do
+      {:ok, game} ->
         socket
-        |> assign(game: Core.add_guess(socket.assigns.game, params["guess"]["guess"]))
+        |> assign(game: game)
         |> clear_form()
 
       {:error, changeset} ->

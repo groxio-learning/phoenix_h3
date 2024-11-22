@@ -1,0 +1,11 @@
+<div :if={@live_action == :play}>
+      <div class="bg-green-100 bg-gray-100 bg-yellow-100"></div>
+      <%= inspect(@form) %>
+      <.guess_form form={@form} />
+
+      <.guesses game={@game} words={Enum.reverse(Core.show_guesses(@game))} />
+    </div>
+    <div :if={@live_action == :new}>
+      <.button phx-click="start" phx-value-mode="random">Random</.button>
+      <.button phx-click="start" phx-value-mode="daily">Daily</.button>
+    </div>

@@ -1,6 +1,7 @@
 <div :if={@live_action == :play}>
       <div class="bg-green-100 bg-gray-100 bg-yellow-100"></div>
-      <%= inspect(@form) %>
+
+      <%= inspect(@game) %>
       <.guess_form form={@form} />
 
       <.guesses game={@game} words={Enum.reverse(Core.show_guesses(@game))} />

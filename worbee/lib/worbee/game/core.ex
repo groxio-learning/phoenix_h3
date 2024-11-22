@@ -2,9 +2,13 @@ defmodule Worbee.Game.Core do
   defstruct guesses: [], answer: nil
 
   # construct
-  def init(answer) do
+  def init(%{
+        answer: answer,
+        guesses: guesses
+      }) do
     %__MODULE__{
-      answer: answer
+      answer: answer,
+      guesses: guesses
     }
   end
 

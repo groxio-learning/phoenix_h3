@@ -4,7 +4,7 @@ defmodule Worbee.Games.Guess do
 
   schema "guesses" do
     field(:guess, :string)
-    field(:user_game_id, :id)
+    belongs_to(:user_game, Worbee.Games.UserGame)
 
     timestamps(type: :utc_datetime)
   end

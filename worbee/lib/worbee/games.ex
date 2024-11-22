@@ -8,6 +8,7 @@ defmodule Worbee.Games do
   alias Worbee.Library
   alias Worbee.Games.UserGame
   alias Worbee.Games.Guess
+  alias Worbee.Game.Core
 
   @doc """
   Returns the list of user_games.
@@ -36,7 +37,18 @@ defmodule Worbee.Games do
       ** (Ecto.NoResultsError)
 
   """
-  def get_user_game!(id), do: Repo.get!(UserGame, id)
+  def get_user_game!(id), do: Repo.get!(UserGame, id) |> Repo.preload(:guesses) |> dbg
+
+  def core!(user_game) do
+    answer = user_game.answer
+
+    guesses =
+      user_game.guesses
+      |> Enum.map(fn x -> x.guess end)
+      |> Enum.reverse()
+
+    Core.init(%{answer: answer, guesses: guesses})
+  end
 
   @doc """
   Creates a user_game.

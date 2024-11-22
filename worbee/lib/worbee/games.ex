@@ -172,6 +172,8 @@ defmodule Worbee.Games do
     Phoenix.PubSub.broadcast(Worbee.PubSub, topic("all"), {game, id})
   end
 
+  def subscribe(), do: Phoenix.PubSub.subscribe(Worbee.PubSub, topic("all"))
+
   defp topic(token), do: "game/#{token}"
   # subscribe to a topic
   # broadcasts to a topic

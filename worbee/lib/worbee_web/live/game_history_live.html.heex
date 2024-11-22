@@ -1,0 +1,11 @@
+<div>
+  <ul>
+    <%= for user_game <- @user_games do %>
+      <li>
+        <.link navigate={~p"/game/#{user_game}"} class="font-semibold text-brand hover:underline">
+          <%= user_game.inserted_at %>
+        </.link>
+      </li>
+    <% end %>
+  </ul>
+</div>

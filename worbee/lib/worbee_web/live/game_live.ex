@@ -32,6 +32,7 @@ defmodule WorbeeWeb.GameLive do
     {:noreply, validate(socket, params["guess"])}
   end
 
+  @impl true
   def handle_params(params, _uri, socket) do
     {:noreply, apply_action(socket, params, socket.assigns.live_action)}
   end

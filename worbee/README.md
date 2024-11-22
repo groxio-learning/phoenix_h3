@@ -2,8 +2,8 @@
 
 To start your Phoenix server:
 
-  * Run `mix setup` to install and setup dependencies
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+- Run `mix setup` to install and setup dependencies
+- Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
@@ -11,27 +11,28 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 ## Learn more
 
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
-
+- Official website: https://www.phoenixframework.org/
+- Guides: https://hexdocs.pm/phoenix/overview.html
+- Docs: https://hexdocs.pm/phoenix
+- Forum: https://elixirforum.com/c/phoenix-forum
+- Source: https://github.com/phoenixframework/phoenix
 
 ## Todo:
+
 ### 1 - Components in the UI ✅
 
 ### 2 - Guesses and User Game Models ✅
 
 ### 3 - Validation (depens on 2) ✅
+
 - 5 letters
 - only letters
 - valid word
 
-### 4 - Admin status 
+### 4 - Admin status
 
 ### 5 - PubSub dashboard (depends on 4)
 
 ### 6 - Start Today`s Game or Random practice Game ✅
 
-### 7 - Game history (depends on 2)
+### 7 - Game history (depends on 2) ✅

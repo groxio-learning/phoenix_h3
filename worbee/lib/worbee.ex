@@ -6,6 +6,7 @@ defmodule Worbee do
       alias Worbee.Repo
       alias Worbee.Games
       alias Worbee.Games.Guess
+      alias Worbee.Accounts.User
     end
   end
 end

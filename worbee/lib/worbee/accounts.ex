@@ -350,4 +350,9 @@ defmodule Worbee.Accounts do
       {:error, :user, changeset, _} -> {:error, changeset}
     end
   end
+
+  def grant_admin(user) do
+    User.grant_changeset(user, %{role: "admin"})
+    |> Repo.update()
+  end
 end

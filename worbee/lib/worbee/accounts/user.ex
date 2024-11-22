@@ -8,6 +8,7 @@ defmodule Worbee.Accounts.User do
     field :hashed_password, :string, redact: true
     field :current_password, :string, virtual: true, redact: true
     field :confirmed_at, :utc_datetime
+    field :role, :string, default: ""
 
     timestamps(type: :utc_datetime)
   end
@@ -40,6 +41,12 @@ defmodule Worbee.Accounts.User do
     |> cast(attrs, [:email, :password])
     |> validate_email(opts)
     |> validate_password(opts)
+  end
+
+  def grant_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:role])
+    |> validate_inclusion(:role, ["admin"])
   end
 
   defp validate_email(changeset, opts) do

@@ -164,6 +164,21 @@ defmodule WorbeeWeb.UserAuth do
     end
   end
 
+  def on_mount(:ensure_admin, _params, session, socket) do
+    socket = mount_current_user(socket, session)
+
+    if socket.assigns.current_user.role == "admin" do
+      {:cont, socket}
+    else
+      socket =
+        socket
+        |> Phoenix.LiveView.put_flash(:error, "You must be an Admin in to access this page.")
+        |> Phoenix.LiveView.redirect(to: ~p"/")
+
+      {:halt, socket}
+    end
+  end
+
   def on_mount(:redirect_if_user_is_authenticated, _params, session, socket) do
     socket = mount_current_user(socket, session)
 
@@ -212,6 +227,18 @@ defmodule WorbeeWeb.UserAuth do
       |> halt()
     end
   end
+
+  def require_admin_user(conn, _opts) do
+    if conn.assigns[:current_user].role == "admin"  do
+      conn
+    else
+      conn
+      |> put_flash(:error, "You must be an Admin to access this page.")
+      |> redirect(to: ~p"/")
+      |> halt()
+    end
+  end
+
 
   defp put_token_in_session(conn, token) do
     conn

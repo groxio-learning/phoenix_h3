@@ -61,6 +61,15 @@ defmodule WorbeeWeb.Router do
     post "/users/log_in", UserSessionController, :create
   end
 
+  scope "/admin", WorbeeWeb do
+    pipe_through [:browser, :require_authenticated_user, :require_admin_user]
+
+    live_session :ensure_admin,
+      on_mount: [{WorbeeWeb.UserAuth, :ensure_admin}] do
+      live "/dashboard", DashLive
+    end
+  end
+
   scope "/", WorbeeWeb do
     pipe_through [:browser, :require_authenticated_user]
 

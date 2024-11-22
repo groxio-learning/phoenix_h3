@@ -24,8 +24,18 @@ Words.read_file("wordle-La.txt")
     })
 end)
 
-{:ok, _user} =
+{:ok, admin} =
   Accounts.register_user(%{
     email: "admin@admin.com",
-    password: "password1234"
+    password: "password1234",
+    role: "admin"
   })
+
+  Accounts.grant_admin(admin)
+
+  {:ok, _user} =
+    Accounts.register_user(%{
+      email: "user@user.com",
+      password: "password1234",
+      role: ""
+    })

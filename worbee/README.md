@@ -29,9 +29,11 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 - only letters
 - valid word
 
-### 4 - Admin status
+### 4 - Admin status ✅
 
-### 5 - PubSub dashboard (depends on 4)
+### 5 - PubSub (depends on 4)
+#### 5a - PubSub model
+#### 5b - PubSub dashboard
 
 ### 6 - Start Today`s Game or Random practice Game ✅
 
